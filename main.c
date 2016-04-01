@@ -8,13 +8,12 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 1, 2016, 3:04 PM
+ * Created on April 1, 2016, 3:27 PM
  */
 
-/* Modify Program 8.4 so the value of triangularNumber is returned by 
- * the function. Then go back to Program 5.5 and change that program
- * so that it calls the new version of the calculateTriangularNumber
- * function. */
+/* Modify Program 8.8 so the value of epsilon is passed as an argument to
+ * the function. Try experimenting with different values of epsilon to
+ * see the effect that it has on the value of square root */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,32 +22,28 @@
  * 
  */
 
-int calculateTriangularNumber (int n) {
-    int i, triangularNumber = 0;
+// Function to calculate the absolute value of a number
+float absoluteValue (float x) {
+    if ( x < 0 )
+        x = -x;
+        return (x);
+}
+
+// Function to compute the square root of a number
+float squareRoot (float x, const float epsilon) {
+    //const float epsilon = .00001;
+    float       guess = 1.0;
     
-    for ( i = 1; i <= n; ++i )
-        triangularNumber += i;
+    while ( absoluteValue ( guess * guess - x) >= epsilon )
+        guess = ( x / guess + guess ) / 2;
         
-    return triangularNumber;
+    return guess;
 }
 
 int main(int argc, char** argv) {
-    int n, number, triangularNumber, counter;
-    
-    int calculateTriangularNumber (int n);
-    
-    for ( counter = 1; counter <= 5; ++counter ) {
-        printf("What triangular number do you want? ");
-        scanf("%i", &number);
-        triangularNumber = calculateTriangularNumber (number);
-        
-        /*triangularNumber = 0;
-        
-        for ( n = 1; n <= number; ++n )
-            triangularNumber += n;*/
-            
-        printf("Triangular number %i is %i\n\n", number, triangularNumber);
-    }
+    printf("squareRoot (2.0) = %f\n", squareRoot (2.0, .01000));
+    printf("squareRoot (144.0) = %f\n", squareRoot (144.0, 00001));
+    printf("squareRoot (17.5) = %f\n", squareRoot (17.5, 00001));
 
     return (EXIT_SUCCESS);
 }
