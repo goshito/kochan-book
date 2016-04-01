@@ -26,11 +26,18 @@ the results in the 5 x 4 matrix. Also write a main routine to test the function.
  * 101th try...FUCKnSHit
  * Is it possible to create a variable length multidimensional array in C??
  */
-
+/*
 void transposeMatrix(int row, int column, int matrix[row][column]) {
     // Should I create a new matrix to hold the transposed matrix given
     // as argument to the function???
     int r, c; // These variables will be used for printing the matrix
+    
+    // the transposed matrix will be stored here
+    int result[column][row] = {
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 }
+    };
     
     // Transpose the matrix
     for (row = 0; row < column; row++) {
@@ -45,7 +52,7 @@ void transposeMatrix(int row, int column, int matrix[row][column]) {
         printf("\n");
     }
 }
-
+*/
 int main(int argc, char** argv) {
     int sampleMatrix[4][5] = {
         { 1, 2, 3, 4, 5 },
@@ -53,13 +60,32 @@ int main(int argc, char** argv) {
         { 2, 3, 4, 5, 6 },
         { 9, 8, 7, 6, 5 }
     };
-    int transposedMatrix[5][4] = {
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}        
+    
+    void transposeMatrix(int row, int column, int matrix[row][column]) {
+    // Should I create a new matrix to hold the transposed matrix given
+    // as argument to the function???
+    int r = column, c = row;; // These variables will be used for printing the matrix
+    
+    // the transposed matrix will be stored here
+    int result[r][c] = {
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 }
     };
+    
+    // Transpose the matrix
+    for (row = 0; row < column; row++) {
+        for (column = 0; column < row; column++)
+            matrix[row][column] = matrix[column][row];
+    }
+    // Display the transposed matrix
+    for (r = 0; r < c; r++) {
+        for (c = 0; c < r; c++) {
+            printf("%i", matrix[r][c]);
+        }
+        printf("\n");
+    }
+}
     
     transposeMatrix(4, 5, sampleMatrix);
 
