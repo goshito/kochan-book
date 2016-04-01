@@ -8,35 +8,39 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on March 31, 2016, 2:06 PM
+ * Created on March 31, 2016, 2:21 PM
  */
-
-// function to return greatest common divisor
-int gcd(int u, int v) {
-    int temp;
-    
-    while (v != 0){
-        temp = u % v;
-        u = v;
-        v = temp;
-    }
-    return u;
-}
-
-// function to return the least common multiple
-int lcm(int a, int b) {
-    int result = a / gcd(a, b) * b;
-    return result;
-}
 
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
- * Chapter 8, Exercise 9
+/*Chapter 8, Exercise 10
+ * Write a function prime that returns 1 if its argument is a prime number
+ * and returns 0 otherwise.
  */
+
+int isPrime(int n) {
+    int i;
+    
+    if (n <= 1)
+        return 0;
+    else if (n <= 3)
+        return 1;
+    else if (n % 2 == 0 || n % 3 == 0)
+        return 0;
+    
+    i = 5;
+    while (i * i <= n) {
+        if (n % i == 0 || n % (i + 2) == 0)
+            return 0;
+        i += 6;
+    }
+    return 1;
+}
+
 int main(int argc, char** argv) {
-    printf("lcm if 15 and 10 = %i", lcm(15, 10));
+    printf("%i", isPrime(7));
+    
 
     return (EXIT_SUCCESS);
 }
