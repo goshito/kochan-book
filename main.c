@@ -8,39 +8,38 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on March 31, 2016, 2:21 PM
+ * Created on March 31, 2016, 3:23 PM
+ */
+
+/* 
+ *  Write a function called arraySum that takes two arguments: an integer array and
+the number of elements in the array. Have the function return as its result the sum
+of the elements in the array.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-/*Chapter 8, Exercise 10
- * Write a function prime that returns 1 if its argument is a prime number
- * and returns 0 otherwise.
+/*
+ * Chapter 8, Exercise 11
  */
 
-int isPrime(int n) {
-    int i;
+int arraySum(int array[], int n) {
+    int i, sum = 0;
     
-    if (n <= 1)
-        return 0;
-    else if (n <= 3)
-        return 1;
-    else if (n % 2 == 0 || n % 3 == 0)
-        return 0;
-    
-    i = 5;
-    while (i * i <= n) {
-        if (n % i == 0 || n % (i + 2) == 0)
-            return 0;
-        i += 6;
+    i = 0;
+    while (i < n) {
+        sum += array[i];
+        i++;
     }
-    return 1;
+    
+    return sum;               
 }
 
 int main(int argc, char** argv) {
-    printf("%i", isPrime(7));
+    int arr[] = {1, 2, 3, 4, 5};
     
+    printf("%i", arraySum(arr, 5));
 
     return (EXIT_SUCCESS);
 }
