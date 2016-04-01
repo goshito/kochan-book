@@ -8,47 +8,60 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 1, 2016, 3:04 PM
+ * Created on March 31, 2016, 3:48 PM
  */
 
-/* Modify Program 8.4 so the value of triangularNumber is returned by 
- * the function. Then go back to Program 5.5 and change that program
- * so that it calls the new version of the calculateTriangularNumber
- * function. */
+/*A matrix M with i rows, j columns can be transposed into a matrix N having j rows
+and i columns by simply setting the value of N a,b equal to the value of M b,a for all
+relevant values of a and b.
+a. Write a function transposeMatrix that takes as an argument a 4 x 5 matrix
+and a 5 x 4 matrix. Have the function transpose the 4 x 5 matrix and store
+the results in the 5 x 4 matrix. Also write a main routine to test the function.*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /*
- * 
+ * Chapter 8, Exercise 12b
+ * 101th try...FUCKnSHit
+ * Is it possible to create a variable length multidimensional array in C??
  */
 
-int calculateTriangularNumber (int n) {
-    int i, triangularNumber = 0;
+void transposeMatrix(int row, int column, int matrix[row][column]) {
+    // Should I create a new matrix to hold the transposed matrix given
+    // as argument to the function???
+    int r, c; // These variables will be used for printing the matrix
     
-    for ( i = 1; i <= n; ++i )
-        triangularNumber += i;
-        
-    return triangularNumber;
+    // Transpose the matrix
+    for (row = 0; row < column; row++) {
+        for (column = 0; column < row; column++)
+            matrix[row][column] = matrix[column][row];
+    }
+    // Display the transposed matrix
+    for (r = 0; r < c; r++) {
+        for (c = 0; c < r; c++) {
+            printf("%i", matrix[r][c]);
+        }
+        printf("\n");
+    }
 }
 
 int main(int argc, char** argv) {
-    int n, number, triangularNumber, counter;
+    int sampleMatrix[4][5] = {
+        { 1, 2, 3, 4, 5 },
+        { 5, 4, 3, 2, 1 },
+        { 2, 3, 4, 5, 6 },
+        { 9, 8, 7, 6, 5 }
+    };
+    int transposedMatrix[5][4] = {
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}        
+    };
     
-    int calculateTriangularNumber (int n);
-    
-    for ( counter = 1; counter <= 5; ++counter ) {
-        printf("What triangular number do you want? ");
-        scanf("%i", &number);
-        triangularNumber = calculateTriangularNumber (number);
-        
-        /*triangularNumber = 0;
-        
-        for ( n = 1; n <= number; ++n )
-            triangularNumber += n;*/
-            
-        printf("Triangular number %i is %i\n\n", number, triangularNumber);
-    }
+    transposeMatrix(4, 5, sampleMatrix);
 
     return (EXIT_SUCCESS);
 }
