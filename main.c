@@ -11,84 +11,99 @@
  * Created on March 31, 2016, 3:48 PM
  */
 
-/*A matrix M with i rows, j columns can be transposed into a matrix N having j rows
+/* A matrix M with i rows, j columns can be transposed into a matrix N having j rows
 and i columns by simply setting the value of N a,b equal to the value of M b,a for all
 relevant values of a and b.
 a. Write a function transposeMatrix that takes as an argument a 4 x 5 matrix
 and a 5 x 4 matrix. Have the function transpose the 4 x 5 matrix and store
-the results in the 5 x 4 matrix. Also write a main routine to test the function.*/
+the results in the 5 x 4 matrix. Also write a main routine to test the function.
+b. Using variable-length arrays, rewrite the transposeMatrix function devel-
+oped in exercise 12a to take the number of rows and columns as arguments,
+and to transpose the matrix of the specified dimensions. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /*
  * Chapter 8, Exercise 12b
- * 101th try...FUCKnSHit
- * Is it possible to create a variable length multidimensional array in C??
  */
 /*
-void transposeMatrix(int row, int column, int matrix[row][column]) {
-    // Should I create a new matrix to hold the transposed matrix given
-    // as argument to the function???
-    int r, c; // These variables will be used for printing the matrix
-    
-    // the transposed matrix will be stored here
-    int result[column][row] = {
-        { 0, 0, 0 },
-        { 0, 0, 0 },
-        { 0, 0, 0 }
-    };
-    
-    // Transpose the matrix
-    for (row = 0; row < column; row++) {
-        for (column = 0; column < row; column++)
-            matrix[row][column] = matrix[column][row];
-    }
-    // Display the transposed matrix
-    for (r = 0; r < c; r++) {
-        for (c = 0; c < r; c++) {
-            printf("%i", matrix[r][c]);
-        }
-        printf("\n");
-    }
-}
-*/
+void displayMatrix(int matrix[row][col]);
+void transposeMatrix(int row, int col, int matrix[row][col]);
+ */
+
+// do transpose using function
+
+void transpose(int m1[3][3], int m2[3][3]);
+
 int main(int argc, char** argv) {
-    int sampleMatrix[4][5] = {
-        { 1, 2, 3, 4, 5 },
-        { 5, 4, 3, 2, 1 },
-        { 2, 3, 4, 5, 6 },
-        { 9, 8, 7, 6, 5 }
+    
+    int sampleMatrix[3][3] = {
+        { 1, 2, 3 },
+        { 4, 5, 6 },
+        { 7, 8, 9 }
     };
     
-    void transposeMatrix(int row, int column, int matrix[row][column]) {
-    // Should I create a new matrix to hold the transposed matrix given
-    // as argument to the function???
-    int r = column, c = row;; // These variables will be used for printing the matrix
-    
-    // the transposed matrix will be stored here
-    int result[r][c] = {
+    int transposedMatrix[3][3] = {
         { 0, 0, 0 },
         { 0, 0, 0 },
         { 0, 0, 0 }
     };
     
-    // Transpose the matrix
-    for (row = 0; row < column; row++) {
-        for (column = 0; column < row; column++)
-            matrix[row][column] = matrix[column][row];
-    }
-    // Display the transposed matrix
-    for (r = 0; r < c; r++) {
-        for (c = 0; c < r; c++) {
-            printf("%i", matrix[r][c]);
+    // display the matrix before transpose
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%i ", sampleMatrix[i][j]);
         }
         printf("\n");
     }
-}
     
-    transposeMatrix(4, 5, sampleMatrix);
+    transpose(sampleMatrix, transposedMatrix);
+
+    printf("\n");
+        // display the matrix after transpose
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%i ", transposedMatrix[i][j]);
+        }
+        printf("\n");
+    }
+    
+    
+    
+    
+    //display matrix before transpose
+    //displayMatrix(sampleMatrix[3][3]);
+    //transpose matrix
+    //transposeMatrix(m, n, sampleMatrix);
+    //display transposed matrix
+    
+    
 
     return (EXIT_SUCCESS);
 }
+
+// function to transpose the matrix
+void transpose(int m1[3][3], int m2[3][3]) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            m2[j][i] = m1[i][j];
+        }
+    }    
+}
+
+/*
+void displayMatrix(int matrix[row][col]) {
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            printf("matrix[%d][%d}: %d", i, j, matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void transposeMatrix(int row, int col, int matrix[row][col]) {
+    
+}
+*/
 
