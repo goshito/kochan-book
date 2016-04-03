@@ -8,7 +8,7 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 3, 2016, 12:41 PM
+ * Created on April 3, 2016, 1:12 PM
  */
 
 /* Rewrite the functions developed in the last four exercise to use global
@@ -18,35 +18,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int i, n, sum;
+int array[5] = {1, 2, 3, 4, 5};
+
+int arraySum(int array[], int n);
+
 /*
- * Rewrite of exercise 10
+ * Rewrite of Exercise 11
  */
-
-int i;
-
-int isPrime(int n) {
-    //int i;
-    
-    if(n <= 1)
-        return 0;
-    else if (n <= 3)
-        return 1;
-    else if (n % 2 == 0 ||n % 3 == 0)
-        return 0;
-    
-    i = 5;
-    while (i * i <= n) {
-        if (n % i == 0 || n % (i + 2) == 0)
-            return 0;
-        i += 6;
-    }
-    return 1;
-}
-
 int main(int argc, char** argv) {
     
-    printf("%i", isPrime(7));
+    n = 5;
+    
+    arraySum(array, n);
+    
+    printf("%i", arraySum(array, 5));
 
     return (EXIT_SUCCESS);
 }
+
+int arraySum(int array[], int n) {
+    i = 0;
+    sum = 0;
+    
+    while (i < n) {
+        sum += array[i];
+        i++;
+    }
+    return sum;
+}
+
 
