@@ -1,8 +1,11 @@
-/* Chapter 8, Exercise 15
-Program to convert a positive integer to another base 
- - modified to ask until a valid base is given if invalid is entered*/
+/* Modify Program 8.14 so that the user can convert any number of integers. Make
+provision for the program to terminate when a zero is typed in as the value of the
+number to be converted. */
+
+// Chapter 8, Exercise 16
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int         convertedNumber[64];
 long int    numberToConvert;
@@ -12,6 +15,8 @@ int         digit = 0;
 void getNumberAndBase (void) {
     printf ("Number to be converted? ");
     scanf ("%li", &numberToConvert);
+    if (numberToConvert == 0)
+        exit(1);
     
     printf ("Base? ");
     scanf ("%i", &base);
