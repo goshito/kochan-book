@@ -8,44 +8,58 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 3, 2016, 1:12 PM
+ * Created on March 31, 2016, 3:48 PM
  */
 
-/* Rewrite the functions developed in the last four exercise to use global
- variables instead of arguments. For example, the preceding exercise should
- now sort a globally defined array. */
+/*A matrix M with i rows, j columns can be transposed into a matrix N having j rows
+and i columns by simply setting the value of N a,b equal to the value of M b,a for all
+relevant values of a and b.
+a. Write a function transposeMatrix that takes as an argument a 4 x 5 matrix
+and a 5 x 4 matrix. Have the function transpose the 4 x 5 matrix and store
+the results in the 5 x 4 matrix. Also write a main routine to test the function.*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int i, n, sum;
-int array[5] = {1, 2, 3, 4, 5};
-
-int arraySum(int array[], int n);
-
 /*
- * Rewrite of Exercise 11
+ * Chapter 8, Exercise 12a (now solved) help!
+ * just the code from exercise 12a is here. Can't understand the task
  */
+
+void transposeMatrix(int m1[4][5], int m2[5][4]) {
+    int row, column;
+    
+    // Transpose the matrix
+    for (row = 0; row < 5; row++) {
+        for (column = 0; column < 5; column++)
+            m2[row][column] = m1[column][row];
+    }
+    // Display the transposed matrix
+    for (row = 0; row < 5; row++) {
+        for (column = 0; column < 4; column++) {
+            printf("%i ", m2[row][column]);
+        }
+        printf("\n");
+    }
+}
+
 int main(int argc, char** argv) {
+    int sampleMatrix[4][5] = {
+        { 1, 2, 3, 4, 5 },
+        { 5, 4, 3, 2, 1 },
+        { 2, 3, 4, 5, 6 },
+        { 9, 8, 7, 6, 5 }
+    };
+    int transposedMatrix[5][4] = {
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}        
+    };
     
-    n = 5;
-    
-    arraySum(array, n);
-    
-    printf("%i", arraySum(array, 5));
+    transposeMatrix(sampleMatrix, transposedMatrix);
 
     return (EXIT_SUCCESS);
 }
-
-int arraySum(int array[], int n) {
-    i = 0;
-    sum = 0;
-    
-    while (i < n) {
-        sum += array[i];
-        i++;
-    }
-    return sum;
-}
-
 
