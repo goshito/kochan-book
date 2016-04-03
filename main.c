@@ -8,102 +8,62 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on March 31, 2016, 3:48 PM
+ * Created on April 1, 2016, 10:10 PM
  */
 
-/* A matrix M with i rows, j columns can be transposed into a matrix N having j rows
-and i columns by simply setting the value of N a,b equal to the value of M b,a for all
-relevant values of a and b.
-a. Write a function transposeMatrix that takes as an argument a 4 x 5 matrix
-and a 5 x 4 matrix. Have the function transpose the 4 x 5 matrix and store
-the results in the 5 x 4 matrix. Also write a main routine to test the function.
-b. Using variable-length arrays, rewrite the transposeMatrix function devel-
-oped in exercise 12a to take the number of rows and columns as arguments,
-and to transpose the matrix of the specified dimensions. */
+/* Modify the sord function from Program 8.12 to taka a third argument 
+ * indicating wheter the array is to be sorted in ascending or descending
+ * order. Then modify the sort algorithm to correctly sort the array into
+ * the indicated order. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /*
- * Chapter 8, Exercise 12b
- */
-/*
-void displayMatrix(int matrix[row][col]);
-void transposeMatrix(int row, int col, int matrix[row][col]);
+ * Chapter 8, Exercise 13
  */
 
-// do transpose using function
-
-void transpose(int m1[3][3], int m2[3][3]);
+void sort(int a[], int n, char choice);
 
 int main(int argc, char** argv) {
     
-    int sampleMatrix[3][3] = {
-        { 1, 2, 3 },
-        { 4, 5, 6 },
-        { 7, 8, 9 }
-    };
+    int arr[16] = {34, -5, 6, 0, 12, 100, 56, 22, 44, -3, -9, 12, 17, 22, 6, 11};
     
-    int transposedMatrix[3][3] = {
-        { 0, 0, 0 },
-        { 0, 0, 0 },
-        { 0, 0, 0 }
-    };
+    // Array before the sort
+    for(int i = 0; i < 16; i++)
+        printf("%i ", arr[i]);
     
-    // display the matrix before transpose
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%i ", sampleMatrix[i][j]);
-        }
-        printf("\n");
-    }
-    
-    transpose(sampleMatrix, transposedMatrix);
-
     printf("\n");
-        // display the matrix after transpose
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%i ", transposedMatrix[i][j]);
-        }
-        printf("\n");
-    }
     
+    sort(arr, 16, 'a'); //'a' for ascending or 'd' for descending
     
-    
-    
-    //display matrix before transpose
-    //displayMatrix(sampleMatrix[3][3]);
-    //transpose matrix
-    //transposeMatrix(m, n, sampleMatrix);
-    //display transposed matrix
-    
-    
+    // Array after the sort
+    for(int i = 0; i < 16; i++)
+        printf("%i ", arr[i]);
 
     return (EXIT_SUCCESS);
 }
 
-// function to transpose the matrix
-void transpose(int m1[3][3], int m2[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            m2[j][i] = m1[i][j];
+void sort(int a[], int n, char choice) {
+    int temp;
+    
+    for(int i = 0; i < n - 1; i++) {            
+        for(int j = i + 1; j < n; j++) {
+            if (choice == 'a') {
+                if (a[i] > a[j]) {          
+                   temp = a[i];
+                   a[i] = a[j];
+                  a[j] = temp;                                        // j = j + 1 (j++)
+                }
+            } else if (choice == 'd') {
+                if (a[i] < a[j]) {          
+                   temp = a[i];
+                   a[i] = a[j];
+                  a[j] = temp;                                        // j = j + 1 (j++)
+                }
+            }
         }
-    }    
-}
-
-/*
-void displayMatrix(int matrix[row][col]) {
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
-            printf("matrix[%d][%d}: %d", i, j, matrix[i][j]);
-        }
-        printf("\n");
     }
 }
 
-void transposeMatrix(int row, int col, int matrix[row][col]) {
-    
-}
-*/
 
