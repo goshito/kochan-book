@@ -1,72 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.c
- * Author: georgi
- *
- * Created on April 1, 2016, 10:10 PM
- */
-
-/* Modify the sord function from Program 8.12 to taka a third argument 
- * indicating wheter the array is to be sorted in ascending or descending
- * order. Then modify the sort algorithm to correctly sort the array into
- * the indicated order. */
-
-// I just moved the array before the main function. Is that correct?
-// I am not sure if I understand the exercise correctly.
+/* Chapter 8, Exercise 15
+Program to convert a positive integer to another base 
+ - modified to ask until a valid base is given if invalid is entered*/
 
 #include <stdio.h>
-#include <stdlib.h>
 
-/*
- * Chaper 8, Exercise 14, Rewrite of exercise 13(sort glolbally defined array)
- */
-int arr[16] = {34, -5, 6, 0, 12, 100, 56, 22, 44, -3, -9, 12, 17, 22, 6, 11};
-void sort(int a[], int n, char choice);
+int         convertedNumber[64];
+long int    numberToConvert;
+int         base;
+int         digit = 0;
 
-int main(int argc, char** argv) {
+void getNumberAndBase (void) {
+    printf ("Number to be converted? ");
+    scanf ("%li", &numberToConvert);
     
-    int arr[16] = {34, -5, 6, 0, 12, 100, 56, 22, 44, -3, -9, 12, 17, 22, 6, 11};
+    printf ("Base? ");
+    scanf ("%i", &base);
     
-    // Array before the sort
-    for(int i = 0; i < 16; i++)
-        printf("%i ", arr[i]);
-    
-    printf("\n");
-    
-    sort(arr, 16, 'a'); //'a' for ascending or 'd' for descending
-    
-    // Array after the sort
-    for(int i = 0; i < 16; i++)
-        printf("%i ", arr[i]);
-
-    return (EXIT_SUCCESS);
-}
-
-void sort(int a[], int n, char choice) {
-    int temp;
-    
-    for(int i = 0; i < n - 1; i++) {            
-        for(int j = i + 1; j < n; j++) {
-            if (choice == 'a') {
-                if (a[i] > a[j]) {          
-                   temp = a[i];
-                   a[i] = a[j];
-                  a[j] = temp;                                        // j = j + 1 (j++)
-                }
-            } else if (choice == 'd') {
-                if (a[i] < a[j]) {          
-                   temp = a[i];
-                   a[i] = a[j];
-                  a[j] = temp;                                        // j = j + 1 (j++)
-                }
-            }
+    if ( base < 2 || base > 16 ) {
+        printf ("Bad base - must be between 2 and 16\n");
+        while (base < 2 || base > 16) { // may be done with a do {} while loop too
+            printf("Base? ");
+            scanf("%i", &base);
         }
     }
 }
 
+void convertNumber (void) {
+    do {
+        
+        convertedNumber[digit] = numberToConvert % base;
+        ++digit;
+        numberToConvert /= base;
+    }
+    while ( numberToConvert != 0 );
+}
 
+void displayConvertedNumber (void) {
+    const char baseDigits[16] = 
+            { '0', '1', '2', '3', '4', '5', '6', '7',
+             '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+    int nextDigit;
+    
+    printf ("Converted number = ");
+    
+    for ( --digit; digit >= 0; --digit ) {
+        nextDigit = convertedNumber[digit];
+        printf ("%c", baseDigits[nextDigit]);
+    }
+    
+    printf ("\n");
+}
+
+int main(void) {
+    void getNumberAndBase (void), convertNumber (void),
+         displayConvertedNumber (void);
+    
+    getNumberAndBase ();
+    convertNumber ();
+    displayConvertedNumber ();
+    
+    return 0;
+}
