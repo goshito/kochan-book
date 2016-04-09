@@ -16,7 +16,7 @@
 
 /*
  * Chapter 9, Exercise 3
- * Solved without struct functions
+ * solved using struct function
  */
 
 /*
@@ -47,49 +47,21 @@ struct time {
     int minutes;
     int seconds;
 };
-/*
-struct time timeUpdate(struct time t) {
-    ++t.seconds;
-    
-    if (t.seconds == 60) {      // next minute
-        t.seconds = 0;
-        ++t.minutes;
-        
-        if (t.minutes == 60) {  // next hour
-            t.minutes = 0;
-            ++t.hour;
-            if (t.hour == 24)   // midnight
-                t.hour = 0;
-        }
-        
-    }
-    
-    return t;
-}
-*/
 
 int absoluteValue(int x) {
-    if (x <= 0)
-        x = -x;
-    return x;
+    if (x < 0)
+        return -x;
 }
 
-int main(int argc, char** argv) {
-    struct time time1, time2, elapsed_time;
-    const int hours_per_day[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
-    
-    
-    //enter time1
-    printf("Enter time1 (hh:mm:ss): \n");
-    scanf("%i:%i:%i", &time1.hour, &time1.minutes, &time1.seconds);
-    
-    //enter time2
-    printf("Enter time2 (hh:mm:ss): \n");
-    scanf("%i:%i:%i", &time2.hour, &time2.minutes, &time2.seconds);
+struct time elapsed_time(struct time time1, struct time time2) {
+    struct time elapsed_time;
     
     elapsed_time.hour = time2.hour - time1.hour;
     elapsed_time.minutes = time2.minutes - time1.minutes;
     elapsed_time.seconds = time2.seconds - time1.seconds;
+    
+    if (elapsed_time.hour < 0)
+        elapsed_time.hour = absoluteValue(elapsed_time.hour);
     
     if (elapsed_time.minutes < 0) {
         elapsed_time.hour += elapsed_time.minutes;
@@ -101,8 +73,21 @@ int main(int argc, char** argv) {
         elapsed_time.seconds += 60;
     }
     
-    printf("%i:%i:%i\n", elapsed_time.hour, elapsed_time.minutes, elapsed_time.seconds);
+    return elapsed_time;
+}
+
+int main(int argc, char** argv) {
+    struct time time1, time2, t;
+    
+    printf("Enter time1 (hh:mm:ss): \n");
+    scanf("%i:%i:%i", &time1.hour, &time1.minutes, &time1.seconds);
+    
+    printf("Enter time2 (hh:mm:ss): \n");
+    scanf("%i:%i:%i", &time2.hour, &time2.minutes, &time2.seconds);
+    
+    t = elapsed_time(time1, time2);   
+    
+    printf("%i:%i:%i\n", t.hour, t.minutes, t.seconds);
         
     return (EXIT_SUCCESS);
 }
-
