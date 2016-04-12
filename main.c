@@ -8,98 +8,53 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 10, 2016, 5:03 PM
+ * Created on April 12, 2016, 7:20 PM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-/* 
- *  Chapter 9, Exercise 6
+/*
+ * Chapter 10, Exercise 2
+ * Why could you have replaced the while statement of the equalStrings function
+ * of Program 10.4 with the statement
+ * 
+ * while (s1[i] == s2[i] && s1[i] != '\0')
+ * 
+ * to achieve the same results?
+ * Answer:
+ * Because if s1[i] == s2[i] is true, there is no need to test if both contain 
+ * the null string.
  */
 
-/* Replace the dateUpdate function from Program 9.4 with the modified one that
- * uses compound literals as presented in the text. Run the program to verify
- * its proper operation.*/
+// Function to determine if two strings are equal
 
-struct date {
-    int month;
-    int day;
-    int year;
-};
-
-// Function to calculate tomorrow's date - using compound literals
-
-struct date dateUpdate(struct date today) {
+bool equalStrings(const char s1[], const char s2[]) {
     
-    struct date tomorrow;
-    int numberOfDays(struct date d);
+    int i = 0;
+    bool areEqual;
     
-    if (today.day != numberOfDays(today)) {
-        tomorrow = (struct date) {today.month, today.day + 1, today.year};
-        /*
-        tomorrow.day = today.day + 1;
-        tomorrow.month = today.month;
-        tomorrow.year = today.year;
-        */
-    } else if (today.month == 12) {     // end of year
-        tomorrow = (struct date) {1, 1, today.year + 1};
-        /*
-        tomorrow.day = 1;
-        tomorrow.month = 1;
-        tomorrow.year = today.year + 1;
-        */
-    } else {                            // end of month
-        tomorrow = (struct date) {1, today.month + 1, today.year};
-        /*
-        tomorrow.day = 1;
-        tomorrow.month = today.month + 1;
-        tomorrow.year = today.year;
-        */
-    }
+    //while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+    while (s1[i] == s2[i] && s1[i] != '\0')
+        ++i;
     
-    return tomorrow;
-}
-
-// Function to find the number of days in a month
-
-int numberOfDays(struct date d) {
-    int days;
-    bool isLeapYear(struct date d);
-    const int daysPerMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    
-    if (isLeapYear && d.month == 2)
-        days = 29;
+    if (s1[i] == '\0' && s2[i] == '\0')
+        areEqual = true;
     else
-        days = daysPerMonth[d.month - 1];
+        areEqual = false;
     
-    return days;
-}
-
-// Function to determine of it's a leap year
-
-bool isLeapYear(struct date d) {
-    bool leapYearFlag;
-    
-    if ((d.year % 4 == 0 && d.year % 100 != 0) || d.year % 400 == 0 )
-        leapYearFlag = true;    // It's a leap year
-    else
-        leapYearFlag = false;   // Not a leap year
-    
-    return leapYearFlag;
+    return areEqual;
 }
 
 int main(int argc, char** argv) {
-    struct date dateUpdate(struct date today);
-    struct date thisDay, nextDay;
+    bool equalStrings(const char s1[], const char s2[]);
+    const char stra[] = "string compare test";
+    const char strb[] = "string";
     
-    printf("Enter today's date (mm dd yyyy): ");
-    scanf("%i%i%i", &thisDay.month, &thisDay.day, &thisDay.year);
-    
-    nextDay = dateUpdate(thisDay);
-    
-    printf("Tomorrow's date is %i/%i/%.2i.\n", nextDay.month, nextDay.day, nextDay.year % 100);
+    printf("%i\n", equalStrings(stra, strb));
+    printf("%i\n", equalStrings(stra, stra));
+    printf("%i\n", equalStrings(strb, "string"));
 
     return (EXIT_SUCCESS);
 }
