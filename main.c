@@ -8,62 +8,59 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 13, 2016, 1:32 PM
+ * Created on April 13, 2016, 3:30 PM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /*
- * Chapter 10, Exercise 4
+ * Chapter 10, Exercise 5 (unsuccessful attempt 1)
  * 
- * Write a function called substring to extract a portion of a character string.
- * The function should be called as follows:
+ * Write a function called findstring to determine if one character string exists
+ * inside another string. The first argument to the function should be the char-
+ * acter string that is to be searched and the second argument is the string you
+ * are interested in finding. If the function finds the specified string, have
+ * return the location in the source string where the string was found. If the
+ * function does not find the string, have it return -1. So for example, the call
  * 
- * substring(source, start, count, result);
+ * index = findstring("a chatterbox", "hat");
  * 
- *  where source is the character string from which you are extractong the sub-
- * string, start is an index number into source indicating the first character
- * of the substring, count is the number of characters to be extracted from the
- * source string, and result is an array of characters that is to contain the
- * extracted substring. For example, the call
+ * searches the string "a chatterbox" for the string "hat". Because "hat" does
+ * exist inside the source string, the function returns 3 to indicate the star-
+ * ting position inside the source string where "hat" was found.
  * 
- * substring("character", 4, 3, result);
- * 
- * extracts the substring "act" (three character starting with character number
- * 4) from the string "character" and places the result in result.
- * 
- * Be certain the function inserts a null character at the end of the substring
- * in result array. Also, have the function check that the requested number of
- * characters does, in fact, exist in the string. If this is not the case, have
- * the function end the substring when it reaches the end of the source string.
- * So, for example, call such as
- * 
- * substring("two words", 4, 20, result);
- * 
- * should just place the string "words" inside the result array, even though 20
- * characters were requested by the call.
  */
 
-void substring(char source[], int start, int count, char result[]) {
-    int i;
+/*
+ * Algorith to solve the problem:
+ * 1. if str1[i] == str2[i] && str1[i+1] == str2[i+1] 
+ * 2. Copy each character that matches in a new array
+ * 3. compare character by character???
+ * 4. How to determine lenght of a string
+ */
+
+int findString(char s1[], char s2[]) {
+    char result[81];
+    int i = 0;
+    int keepGoing = 1;
     
-    i = 0;
-    while (i < count) {
-        result[i] = source[start];
-        i++;
-        start++;
+    while (keepGoing) {
+        if (s2[i] == s1[1] && s2[i+1] == s1[i + 1]) {
+            result[i] = s2[i];
+            i++;
+        } else {
+            keepGoing = 0;
+        }
     }
-    result[i] = '\0';
-} 
+    
+    printf("%s", result);
+    
+}
 
 int main(int argc, char** argv) {
-    char str[81];
-    
-    substring("character", 4, 3, str);
-    
-    printf("%s", str);
-    
+    findString("a chatterbox", "hat");
+
     return (EXIT_SUCCESS);
 }
 
