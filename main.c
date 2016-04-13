@@ -1,43 +1,69 @@
 /*
- * Chapter 10, Exercise 5 solved wit help from stackoverflow
- * http://stackoverflow.com/questions/1369802/substring-algorithm?rq=1
- * 
- * Write a function called findstring to determine if one character string exists
- * inside another string. The first argument to the function should be the char-
- * acter string that is to be searched and the second argument is the string you
- * are interested in finding. If the function finds the specified string, have
- * return the location in the source string where the string was found. If the
- * function does not find the string, have it return -1. So for example, the call
- * 
- * index = findstring("a chatterbox", "hat");
- * 
- * searches the string "a chatterbox" for the string "hat". Because "hat" does
- * exist inside the source string, the function returns 3 to indicate the star-
- * ting position inside the source string where "hat" was found.
- * 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   main.c
+ * Author: georgi
+ *
+ * Created on April 13, 2016, 8:25 PM
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-int isSubstring(char s[], char t[]) {
-    for ( int i = 0; i <= strlen(s) - strlen(t); i++ ) {
+/*
+ * Chapter 10, Exercise 6 (unsuccessful attempt 1)
+ * 
+ * Write a function called removeString to remove a specified number of charac-
+ * ters from a character string. The function should take three areguments:
+ * the source string, the starting index number in the source string, and the
+ * number of characters to remove. So, if the character array text contains the
+ * string "the wrong son", the call
+ * 
+ * removeString(text, 4, 6);
+ * 
+ * has the effect of removing the characters "wrong" (the word "wrong" plus the
+ * space that follows) from the array text. The resulting string inside the text
+ * is the taken "the son".
+ * 
+ */
+
+/* 
+ * Somekind of algorithm to solve this problem:
+ * 1. Get the substring function
+ */
+
+void removeString(char source[], int start, int count) {    
+    char temp[81];
+    int i;
+    
+    i = 0;
+    do {
+        temp[i] = source[start];        
+        i++;
+        start++;
+    } while (i < count);
         
-        for ( int j = 0; j < strlen(t); j++ ) {
-            
-            if ( s[i + j] == t[j] ) {
-                if ( j == strlen(t) - 1 )
-                    return i;
-            } else
-                break;
-        }
-        
+    /*
+    i = 0;
+    while (i > start && i < count) {
+        temp[i] = source[i];
+        ++i;
     }
-    return -1;
+    */
+    printf("\ntemp = %s\n", temp);
 }
 
-int main(void) {
-    printf("%i", isSubstring("a chatterbox", "hat"));
+int main(int argc, char** argv) {
+    char str[81] = "the wrong son";
     
-    return 0;
+    removeString(str, 4, 6);
+    
+    printf("\n%s", str);
+
+    return (EXIT_SUCCESS);
 }
