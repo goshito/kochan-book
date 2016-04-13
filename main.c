@@ -1,21 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.c
- * Author: georgi
- *
- * Created on April 13, 2016, 3:30 PM
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-
-/*
- * Chapter 10, Exercise 5 (unsuccessful attempt 1)
+ * Chapter 10, Exercise 5 solved wit help from stackoverflow
+ * http://stackoverflow.com/questions/1369802/substring-algorithm?rq=1
  * 
  * Write a function called findstring to determine if one character string exists
  * inside another string. The first argument to the function should be the char-
@@ -32,35 +17,27 @@
  * 
  */
 
-/*
- * Algorith to solve the problem:
- * 1. if str1[i] == str2[i] && str1[i+1] == str2[i+1] 
- * 2. Copy each character that matches in a new array
- * 3. compare character by character???
- * 4. How to determine lenght of a string
- */
+#include <stdio.h>
+#include <string.h>
 
-int findString(char s1[], char s2[]) {
-    char result[81];
-    int i = 0;
-    int keepGoing = 1;
-    
-    while (keepGoing) {
-        if (s2[i] == s1[1] && s2[i+1] == s1[i + 1]) {
-            result[i] = s2[i];
-            i++;
-        } else {
-            keepGoing = 0;
+int isSubstring(char s[], char t[]) {
+    for ( int i = 0; i <= strlen(s) - strlen(t); i++ ) {
+        
+        for ( int j = 0; j < strlen(t); j++ ) {
+            
+            if ( s[i + j] == t[j] ) {
+                if ( j == strlen(t) - 1 )
+                    return i;
+            } else
+                break;
         }
+        
     }
-    
-    printf("%s", result);
-    
+    return -1;
 }
 
-int main(int argc, char** argv) {
-    findString("a chatterbox", "hat");
-
-    return (EXIT_SUCCESS);
+int main(void) {
+    printf("%i", isSubstring("a chatterbox", "hat"));
+    
+    return 0;
 }
-
