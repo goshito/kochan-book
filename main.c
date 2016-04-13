@@ -16,7 +16,7 @@
 #include <string.h>
 
 /*
- * Chapter 10, Exercise 6 (unsuccessful attempt 1)
+ * Chapter 10, Exercise 6 (unsuccessful attempt 2)
  * 
  * Write a function called removeString to remove a specified number of charac-
  * ters from a character string. The function should take three areguments:
@@ -35,19 +35,32 @@
 /* 
  * Somekind of algorithm to solve this problem:
  * 1. Get the substring function
+ * 2. Copy the elements to the temp string
  */
 
 void removeString(char source[], int start, int count) {    
     char temp[81];
     int i;
     
+    // fill the temp array until start
+    for (i = 0; i <= strlen(source); i++) {
+        if (i >= start && i <= start + count)
+            continue;
+        else {
+            temp[i] = source[i];
+        }
+    }
+    printf("\ntemp = %s\n", temp);
+    /*
     i = 0;
     do {
         temp[i] = source[start];        
-        i++;
         start++;
-    } while (i < count);
-        
+        i++;
+    } while (start <= count);
+    printf("\ntemp = %s\n", temp);
+    */
+    
     /*
     i = 0;
     while (i > start && i < count) {
@@ -55,7 +68,7 @@ void removeString(char source[], int start, int count) {
         ++i;
     }
     */
-    printf("\ntemp = %s\n", temp);
+    
 }
 
 int main(int argc, char** argv) {
