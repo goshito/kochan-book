@@ -1,70 +1,66 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   main.c
- * Author: georgi
- *
- * Created on April 13, 2016, 8:25 PM
+ * Chapter 10, exercise 6 - Remove elements from an array
+ * The purpose of this program is to remove some elements from an array
+ * I am trying to accomplish that by copying the the elements that should 
+ * remain after deletion to another string. Then I will copy the second string
+ * back into the first one.
+ *  
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-/*
- * Chapter 10, Exercise 6 another attempt using a function from below mentioned
- * url
- * 
- * Write a function called removeString to remove a specified number of charac-
- * ters from a character string. The function should take three areguments:
- * the source string, the starting index number in the source string, and the
- * number of characters to remove. So, if the character array text contains the
- * string "the wrong son", the call
- * 
- * removeString(text, 4, 6);
- * 
- * has the effect of removing the characters "wrong" (the word "wrong" plus the
- * space that follows) from the array text. The resulting string inside the text
- * is the taken "the son".
- * 
- */
-
-/* 
- * Somekind of algorithm to solve this problem:
- * 1. Get the substring function
- * 2. Copy the elements to the temp string
- * 3. study removeString from:
- * http://codereview.stackexchange.com/questions/116004/remove-specified-number-of-characters-from-a-string?newreg=5abb33cd17954eea94fe24a1d64d2b81
- */
-
-void removeString (char text[], int index, int rm_length)
-{
-    int i;
-
-    for ( i = 0; i < index; ++i )
-        if ( text[i] == '\0' )
-            return;
-
-    for ( ; i < index + rm_length; ++i )
-        if ( text[i] == '\0' ) {
-            text[index] = '\0';
-            return;
-        }
-
-    do {
-        text[i - rm_length] = text[i];
-    } while ( text[i++] != '\0' );
-}
-
-int main(int argc, char** argv) {
-    char str[] = "the wrong son";
+int main(void) {
+    char str[81];
+    int start_pos, chars_to_remove, end_point, end_of_string, i, j;
+    char removal_result[81];
     
-    removeString(str, 4, 6);
+    printf("Enter string: ");
+    gets(str);
+    //scanf("%s", str);
     
-    printf("%s", str);
-    return (EXIT_SUCCESS);
+    printf("\nFrom which character to start removal?\n");
+    scanf("%i", &start_pos);
+    
+    printf("\nHow many chars would you like to remove?\n");
+    scanf("%i", &chars_to_remove);
+    
+    // Copy entered string elements until start position is reached
+    i = 0;
+    while (i < start_pos) {
+        removal_result[i] = str[i];
+        i++;
+    }
+    
+    end_point = i + chars_to_remove;
+    end_of_string = strlen(str);
+    
+    while (end_point <= end_of_string) {
+        removal_result[i] = str[end_point];
+        end_point++;
+        i++;
+    }
+    
+    printf("Here's what you've done: %s", removal_result);
+    
+    // Now copy the processed string back to the original one
+    int size_str = strlen(str);
+    int size_removal_result = strlen(removal_result);
+    
+    // Move elements back to original string
+    i = 0;
+    while (i < size_str) {
+        str[i] = removal_result[i];
+        i++;
+    }
+    
+    printf("\n copy string result = %s", str);
+    
+    /*
+    printf("\nsize_str = %i", size_str);
+    printf("\nsize_removal_result = %i", size_removal_result);
+    */
+    return 0;
 }
+/*     printf("\nend_point: %i\n", end_point);
+    printf("\nend of string: %i\n", end_of_string); */
