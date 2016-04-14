@@ -16,7 +16,8 @@
 #include <string.h>
 
 /*
- * Chapter 10, Exercise 6 (unsuccessful attempt 2)
+ * Chapter 10, Exercise 6 another attempt using a function from below mentioned
+ * url
  * 
  * Write a function called removeString to remove a specified number of charac-
  * ters from a character string. The function should take three areguments:
@@ -36,47 +37,34 @@
  * Somekind of algorithm to solve this problem:
  * 1. Get the substring function
  * 2. Copy the elements to the temp string
+ * 3. study removeString from:
+ * http://codereview.stackexchange.com/questions/116004/remove-specified-number-of-characters-from-a-string?newreg=5abb33cd17954eea94fe24a1d64d2b81
  */
 
-void removeString(char source[], int start, int count) {    
-    char temp[81];
+void removeString (char text[], int index, int rm_length)
+{
     int i;
-    
-    // fill the temp array until start
-    for (i = 0; i <= strlen(source); i++) {
-        if (i >= start && i <= start + count)
-            continue;
-        else {
-            temp[i] = source[i];
+
+    for ( i = 0; i < index; ++i )
+        if ( text[i] == '\0' )
+            return;
+
+    for ( ; i < index + rm_length; ++i )
+        if ( text[i] == '\0' ) {
+            text[index] = '\0';
+            return;
         }
-    }
-    printf("\ntemp = %s\n", temp);
-    /*
-    i = 0;
+
     do {
-        temp[i] = source[start];        
-        start++;
-        i++;
-    } while (start <= count);
-    printf("\ntemp = %s\n", temp);
-    */
-    
-    /*
-    i = 0;
-    while (i > start && i < count) {
-        temp[i] = source[i];
-        ++i;
-    }
-    */
-    
+        text[i - rm_length] = text[i];
+    } while ( text[i++] != '\0' );
 }
 
 int main(int argc, char** argv) {
-    char str[81] = "the wrong son";
+    char str[] = "the wrong son";
     
     removeString(str, 4, 6);
     
-    printf("\n%s", str);
-
+    printf("%s", str);
     return (EXIT_SUCCESS);
 }
