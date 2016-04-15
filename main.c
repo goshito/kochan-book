@@ -36,23 +36,43 @@ void insertString(char source[], char insert[], int pos) {
     int sourceSize = strlen(source);
     int insertSize = strlen(insert);
     int strSumSizes = strlen(source) + strlen(insert);
-    
+    int i;
+    // copy the elements to free space for insert string
+    //printf("initial pos = %i\n", pos);
+    while (pos < sourceSize) {
+        source[pos + insertSize] = source[pos];
+        pos++;
+    }
+    source[pos + insertSize] = '\0';
+    /*
     source[pos + insertSize] = source[pos];
-    //printf("%c", source[pos + insertSize]);
+    printf("%c", source[pos + insertSize]);
     pos++;
     source[pos + insertSize] = source[pos];
-    //printf("%c", source[pos + insertSize]);
+    printf("%c", source[pos + insertSize]);
     pos++;
     source[pos + insertSize] = source[pos];
-    //printf("%c", source[pos + insertSize]);
+    printf("%c", source[pos + insertSize]);
     source[pos + insertSize + 1] = '\0';
+    */
+    //printf("\nposition after array expand = %i\n", pos);
     
-    pos = (sourceSize - insertSize);
+    
+    pos = (sourceSize - insertSize);    
+    i = 0;
+    while (i < insertSize) {
+        source[pos] = insert[i];
+        pos++;
+        i++;
+    }
+    
+    /*
     source[pos] = insert[0];
     pos++;
     source[pos] = insert[1];
     pos++;
     source[pos] = insert[2];
+    */    
 }
 
 int main(int argc, char** argv) {
@@ -63,3 +83,35 @@ int main(int argc, char** argv) {
 
     return (EXIT_SUCCESS);
 }
+
+/*#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char src_str[] = "the wrong son";
+    char str_ins[] = "per";
+    int i, ins_pos, new_str_size; 
+    
+    ins_pos = (strlen(src_str) - (strlen(str_ins)));
+    new_str_size = strlen(src_str) + strlen(str_ins);
+    
+    // free up space for insertion
+    i = ins_pos + strlen(str_ins);
+    while (i <= new_str_size) {
+        src_str[i] = src_str[i];
+        i--;
+    }
+    
+    
+    while (ins_pos < strlen(src_str)) {        
+        src_str[ins_pos] = str_ins[i];
+        ins_pos += sizeof(str_ins);
+        ins_pos++;
+        //i++;
+    }
+    
+    printf("src_str = %s", src_str);
+    
+    return 0;
+}
+*/
