@@ -37,33 +37,36 @@
  * The insert will be done by creating a second string in which to copy the
  * first one excluding character from startPos till endPos. 
  * 1. Copy initial string till startPos is reached, ignore to copy characters
- * untill endPos is reached and then continue copy till the end of the string
+ * until endPos is reached and then continue copy till the end of the string
+ *      
+ *      20042016 - test different positions of the inserted char - working
+ *      
  */
-
-// this program can insert only one char, the bufferString needs to be copied 
-// back to the original one
-
 int main(int argc, char** argv) {
     char name[] = "georgitoshev";
-    char insertInital ='v';
-    int startPos, endPos, i;
+    char insertInital[] = "valeriev";
+    int startPos, endPos, i, j;
     char nameBuff[20];
     
-    // Copy initial string untill insert pos is reached
+    // Copy initial string until insert pos is reached
     startPos = 6;
     i = 0;
-    while (i < startPos) {
+    while (i < startPos) {      // copy string until start insert pos is reached
         nameBuff[i] = name[i];
         i++;
-    } // now it's time to instert the initial
+    } // now it's time to insert the initial
     
-    endPos = startPos + sizeof(insertInital);
+    endPos = startPos + strlen(insertInital);
+    j = 0;
+    while (i < endPos) {
+        nameBuff[i] = insertInital[j]; // a while loop is needed here for strings
+        i++; // go to the next char
+        j++;
+    }
     
-    nameBuff[i] = insertInital;
-    i++; // go to the next char
-    
-    while (i < strlen(name) + sizeof(insertInital)) {
-        nameBuff[i] = name[i - 1];
+    // copy the rest of the string after insertion
+    while (i < strlen(name) + sizeof(insertInital)) {   
+        nameBuff[i] = name[i - strlen(insertInital)]; //why i - 1? -Because of strlen 
         i++;
     }
     
@@ -71,3 +74,4 @@ int main(int argc, char** argv) {
     
     return (EXIT_SUCCESS);
 }
+
