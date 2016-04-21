@@ -8,7 +8,7 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 15, 2016, 10:51 PM
+ * Created on April 21, 2016, 5:06 PM
  */
 
 #include <stdio.h>
@@ -32,46 +32,35 @@
  * returned.
  */
 
-/* 
- * Program to insert v char in georgitoshev string
- * The insert will be done by creating a second string in which to copy the
- * first one excluding character from startPos till endPos. 
- * 1. Copy initial string till startPos is reached, ignore to copy characters
- * until endPos is reached and then continue copy till the end of the string
- *      
- *      20042016 - test different positions of the inserted char - working
- *      
- */
-int main(int argc, char** argv) {
-    char name[] = "georgitoshev";
-    char insertInital[] = "valeriev";
-    int startPos, endPos, i, j;
+void insertString(char text[], char insert[], int startPos) {
+    int  endPos, i, j;
     char nameBuff[20];
     
-    // Copy initial string until insert pos is reached
-    startPos = 6;
     i = 0;
-    while (i < startPos) {      // copy string until start insert pos is reached
-        nameBuff[i] = name[i];
+    while (i < startPos) {
+        nameBuff[i] = text[i];
         i++;
-    } // now it's time to insert the initial
+    }
     
-    endPos = startPos + strlen(insertInital);
+    endPos = startPos + strlen(insert);
+    
     j = 0;
     while (i < endPos) {
-        nameBuff[i] = insertInital[j]; // a while loop is needed here for strings
-        i++; // go to the next char
+        nameBuff[i] = insert[j];
+        i++;
         j++;
     }
     
-    // copy the rest of the string after insertion
-    while (i < strlen(name) + sizeof(insertInital)) {   
-        nameBuff[i] = name[i - strlen(insertInital)]; //why i - 1? -Because of strlen 
+    while (i < strlen(text) + sizeof(insert)) {
+        nameBuff[i] = text[i - strlen(insert)];
         i++;
     }
     
     printf("\n%s", nameBuff);
-    
+}
+
+int main(int argc, char** argv) {
+    insertString("the wrong son", "per", 10);
     return (EXIT_SUCCESS);
 }
 
