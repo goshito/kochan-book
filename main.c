@@ -34,29 +34,33 @@
 
 void insertString(char text[], char insert[], int startPos) {
     int  endPos, i, j;
-    char nameBuff[20];
+    char buff[20];
     
+    // get the characters until start pos
     i = 0;
     while (i < startPos) {
-        nameBuff[i] = text[i];
+        buff[i] = text[i];
         i++;
     }
     
+    // determine when the insertion ends 
     endPos = startPos + strlen(insert);
     
+    // copy insert string in the empty space
     j = 0;
     while (i < endPos) {
-        nameBuff[i] = insert[j];
+        buff[i] = insert[j];
         i++;
         j++;
     }
     
+    // copy the rest of the chars from the initial string
     while (i < strlen(text) + sizeof(insert)) {
-        nameBuff[i] = text[i - strlen(insert)];
+        buff[i] = text[i - strlen(insert)];
         i++;
     }
     
-    printf("\n%s", nameBuff);
+    printf("\n%s", buff);
 }
 
 int main(int argc, char** argv) {
