@@ -8,53 +8,43 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 22, 2016, 8:08 PM
+ * Created on April 26, 2016, 3:05 AM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 /*
- * Chapter 10, Exercise 8
+ * You can extend even further the usefulness of the replaceString function
+ * from the preceding exercise if you have it return a value that indicates 
+ * whether the replacement succeeded, which means that the string was found
+ * inside the source strinf. So, if the function returns true if the replace-
+ * ment succeeds and false if it does not, the loop
  * 
- * Using the findString, removeString, and insertString functions from preced-
- * ing exercises, write a function called replaceString that takes three char-
- * acter string arguments as follows
+ * do
+ *  stillFound = replaceString(text, " ", "");
+ * while(stillFound = true);
  * 
- * replaceString(source, s1, s2);
- * 
- * and that replaces s1 inside source with the character string s2. The function
- * should call the findString function to locate s1 inside source, then call the
- * removeString function to remove s1 from source, and finally call the 
- * insertString function to insert s2 into source at the proper location.
- * So, the function call
- * 
- * replaceString(text, "*", "");
- * 
- * has the effect of removing the first asterisk inside the text array because
- * the replacement string is the null string. 
- * 
- */
-
-/* 1. Get the functions
- * 2. Modify functions if necessary
- * 3. Should the string variables inside funcs be public??? 
- * 4. Should the void functions return values with results
+ * could be used to remove all blank spaces from text, for example.
+ * Incorporate this change into the replaceString function and try it with var-
+ * ious character strings to ensure that it works properly.
  */
 
 int findString(char s[], char t[]);
 void removeString(char string[], int start_pos, int chars_to_remove);
 void insertString(char text[], char insert[], int startPos);
-void replaceString(char source[], char s1[], char s2[]);
+bool replaceString(char source[], char s1[], char s2[]);
 
-
-int main(int argc, char** argv) {    
-    //char test[] = "the wrong son";
+int main(int argc, char** argv) {
+    bool stillFound;    
+    char name[81] = "georgi valeriev toshev georgiev";
     
-    replaceString("text*123", "*", "");
+    do 
+        stillFound = replaceString(name, " ", "");
+    while (stillFound = true);
     
-    //printf("%s", test);
     return (EXIT_SUCCESS);
 }
 
@@ -124,7 +114,7 @@ void insertString(char text[], char insert[], int startPos) {
         j++;
     }
     
-    while (i < strlen(text) + sizeof(insert)) {
+    while (i < strlen(text) + strlen(insert) + 1) {
         nameBuff[i] = text[i - strlen(insert)];
         i++;
     }
@@ -139,22 +129,27 @@ void insertString(char text[], char insert[], int startPos) {
     free(text);
 }
 
-void replaceString(char source[], char s1[], char s2[]) {
-    int pos = findString(source, s1);
-    char source_tmp[81], s1_tmp[81], s2_tmp[81];
+bool replaceString(char source[], char s1[], char s2[]) {
+    int pos = findString(source, s1); // 
+    char source_tmp[81];
     
     strcpy(source_tmp, source);     // source can't be changed
     //strcpy(s1_tmp, s1);
     //strcpy(s2_tmp, s2);
+    
+    // !!! while loop for the blank spaces here
+    
     if (pos != -1) {
         removeString(source_tmp, pos, strlen(s1));
-        insertString(source_tmp, "geo", pos);
-    } else {
-        printf("\n%s not found in %s", s1, source);
-    }    
+        insertString(source_tmp, s2, pos);
+        return true;
+    } 
+    else 
+        false;
     
 }
 
-// ne e nujno rezultata da se printira, no e dobre
-// zashto removeString dava Segmentation Fault
+/* Notes
+ * copy source_tmp back to source
+ */
 
