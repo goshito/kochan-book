@@ -16,7 +16,7 @@
 #include <string.h>
 
 /* 
- * Chapter 10, Exercise 8 - solved
+ * Chapter 10, Exercise 8 - solved, fixed blankspace bug
  * 
  * Using the findString, removeString, and insertString functions from preced-
  * ing exercises, write a function called replaceString that takes three char-
@@ -45,7 +45,7 @@ int findString(char srch_in[], char srch_for[]) {
     while (i <= strlen(srch_in) - strlen(srch_for)) {
         
         j = 0;
-        while (j < strlen(srch_for)) {            
+        while (j <= strlen(srch_for)) {            
             if (srch_in[i + j] == srch_for[j]) {
                 if (j == strlen(srch_for) - 1)
                     return i;
@@ -110,8 +110,8 @@ void insertString(char text[], char insert[], int start) {
 
 void replaceString(char source[], char s1[], char s2[]) {       
     int foundat = findString(source, s1);
-    removeString(source, foundat, strlen(s2));
-    insertString(source, s2, foundat);    
+    removeString(source, foundat, strlen(s2) + 1);
+    insertString(source, s2, foundat);
 }
 
 int main(int argc, char** argv) {
@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
     void insertString(char text[], char insert[], int start);
     void replaceString(char source[], char s1[], char s2[]);
     
-    replaceString(test, "g", "jjj");
+    replaceString(test, " ", ""); // doesn't work with blank space - fixed
     printf("%s", test);
 
     return (EXIT_SUCCESS);
