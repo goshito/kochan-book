@@ -8,148 +8,123 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on April 26, 2016, 3:05 AM
+ * Created on April 30, 2016, 9:02 AM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
-/*
- * You can extend even further the usefulness of the replaceString function
- * from the preceding exercise if you have it return a value that indicates 
- * whether the replacement succeeded, which means that the string was found
- * inside the source strinf. So, if the function returns true if the replace-
- * ment succeeds and false if it does not, the loop
+/* 
+ * Chapter 10, Exercise 8 - solved
  * 
- * do
- *  stillFound = replaceString(text, " ", "");
- * while(stillFound = true);
+ * Using the findString, removeString, and insertString functions from preced-
+ * ing exercises, write a function called replaceString that takes three char-
+ * acter string arguments as follows
  * 
- * could be used to remove all blank spaces from text, for example.
- * Incorporate this change into the replaceString function and try it with var-
- * ious character strings to ensure that it works properly.
+ * replaceString(source, s1, s2);
+ * 
+ * and that replaces s1 inside source with the character string s2. The function
+ * should call the findString function to locate s1 inside source, then call the
+ * removeString function to remove s1 from source, and finally call the 
+ * insertString function to insert s2 into source at the proper location.
+ * So, the function call
+ * 
+ * replaceString(text, "*", "");
+ * 
+ * has the effect of removing the first asterisk inside the text array because
+ * the replacement string is the null string. 
+ * 
  */
 
-int findString(char s[], char t[]);
-void removeString(char string[], int start_pos, int chars_to_remove);
-void insertString(char text[], char insert[], int startPos);
-bool replaceString(char source[], char s1[], char s2[]);
-
-int main(int argc, char** argv) {
-    bool stillFound;    
-    char name[81] = "georgi valeriev toshev georgiev";
+// function to search for a substring, returns position ot -1 if not found
+int findString(char srch_in[], char srch_for[]) {
+    int i, j;
     
-    do 
-        stillFound = replaceString(name, " ", "");
-    while (stillFound = true);
-    
-    return (EXIT_SUCCESS);
-}
-
-// Function to find string t inside string s and return found string position
-int findString(char s[], char t[]) {
-    for ( int i = 0; i <= strlen(s) - strlen(t); i++ ) {
+    i = 0;
+    while (i <= strlen(srch_in) - strlen(srch_for)) {
         
-        for ( int j = 0; j < strlen(t); j++ ) {
-            
-            if ( s[i + j] == t[j] ) {
-                if ( j == strlen(t) - 1 )
+        j = 0;
+        while (j < strlen(srch_for)) {            
+            if (srch_in[i + j] == srch_for[j]) {
+                if (j == strlen(srch_for) - 1)
                     return i;
             } else
                 break;
+            j++;
         }
         
+        i++;
     }
     return -1;
 }
-
-void removeString(char string[], int start_pos, int chars_to_remove) {
-    int i, end_point, end_of_string;
-    char removal_result[81];
+// function to remove n characters from string from start position on
+void removeString(char string[], int start, int n) {
+    char *buffer;
+    int i, j;
     
+    buffer = (char *) malloc(strlen(string));
+    // get the chars until start position
     i = 0;
-    while (i < start_pos) {
-        removal_result[i] = string[i];
+    while (i < start) {
+        buffer[i] = string[i];
+        i++;
+    }
+    // get rid of some chars by not copying them in the buffer    
+    // continue to copy in the buffer
+    
+    while (i < strlen(string)) {
+        buffer[i] = string[i + n];
         i++;
     }
     
-    end_point = i + chars_to_remove;;
-    end_of_string = strlen(string);
+    strcpy(string, buffer);
     
-    while (end_point <= end_of_string) {
-        removal_result[i] = string[end_point];
-        end_point++;
-        i++;
-    }
-    
-    int size_string = strlen(string);
-    int size_removal_result = strlen(removal_result);
-    
-    i = 0;
-    while (i < size_string) {
-        string[i] = removal_result[i];
-        i++;
-    }   
- 
+    free(buffer);
 }
-
-void insertString(char text[], char insert[], int startPos) {
-    int  endPos, i, j;
-    char nameBuff[strlen(text) + strlen(insert) + 1];
+//function to insert string into text[] from start position on
+void insertString(char text[], char insert[], int start) {
+    int strs_len = strlen(text) + strlen(insert), i, j;
+    char buffer[strs_len];
     
     i = 0;
-    while (i < startPos) {
-        nameBuff[i] = text[i];
+    while (i < start) {
+        buffer[i] = text[i];
         i++;
     }
-    
-    endPos = startPos + strlen(insert);
-    
     j = 0;
-    while (i < endPos) {
-        nameBuff[i] = insert[j];
+    while (i < strlen(insert) + start) {
+        buffer[i] = insert[j];
         i++;
         j++;
-    }
-    
-    while (i < strlen(text) + strlen(insert) + 1) {
-        nameBuff[i] = text[i - strlen(insert)];
+    } // i = 13
+    while (i < strs_len) {
+        buffer[i] = text[i - strlen(insert)];
         i++;
     }
+    buffer[i] = '\0';
     
-    // allocate space for the new characters
-    text = (char*) malloc(strlen(insert) + 1);
-    
-    // copy result back to initial string    
-    strcpy(text, nameBuff);
-    
-    printf("%s", text);
-    free(text);
-}
-
-bool replaceString(char source[], char s1[], char s2[]) {
-    int pos = findString(source, s1); // 
-    char source_tmp[81];
-    
-    strcpy(source_tmp, source);     // source can't be changed
-    //strcpy(s1_tmp, s1);
-    //strcpy(s2_tmp, s2);
-    
-    // !!! while loop for the blank spaces here
-    
-    if (pos != -1) {
-        removeString(source_tmp, pos, strlen(s1));
-        insertString(source_tmp, s2, pos);
-        return true;
-    } 
-    else 
-        false;
+    strcpy(text, buffer);
     
 }
 
-/* Notes
- * copy source_tmp back to source
- */
+void replaceString(char source[], char s1[], char s2[]) {       
+    int foundat = findString(source, s1);
+    removeString(source, foundat, strlen(s2));
+    insertString(source, s2, foundat);    
+}
+
+int main(int argc, char** argv) {
+    char test[] = "georgi toshev";
+    
+    int findString(char srch_in[], char srch_for[]);
+    void removeString(char string[], int start, int n);
+    void insertString(char text[], char insert[], int start);
+    void replaceString(char source[], char s1[], char s2[]);
+    
+    replaceString(test, "g", "jjj");
+    printf("%s", test);
+
+    return (EXIT_SUCCESS);
+}
 
