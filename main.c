@@ -14,27 +14,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* 
- * Chapter 10, Exercise 8 - solved, fixed blankspace bug
+ * Chapter 10, Exercise 9
  * 
- * Using the findString, removeString, and insertString functions from preced-
- * ing exercises, write a function called replaceString that takes three char-
- * acter string arguments as follows
+ * You can extend even further the usefulness of the replaceString function
+ * from the preceding exercise if you have it return a value that indicates whe-
+ * ther the replacement succeeded, which means that the string to be replaced
+ * was found inside the source string. So, if the function returns ture if the
+ * replacement succeeds and false if it does not, the loop
  * 
- * replaceString(source, s1, s2);
+ * do
+ *      stillFound = replaceString(text, " ", "");
+ * while (stillFound = true);
  * 
- * and that replaces s1 inside source with the character string s2. The function
- * should call the findString function to locate s1 inside source, then call the
- * removeString function to remove s1 from source, and finally call the 
- * insertString function to insert s2 into source at the proper location.
- * So, the function call
- * 
- * replaceString(text, "*", "");
- * 
- * has the effect of removing the first asterisk inside the text array because
- * the replacement string is the null string. 
- * 
+ * could be used to remove all blank spaces from text, for example.
+ * Incorporate this change into the replaceStrings function and try it with var-
+ * ious character strings to ensure that it works properly.
  */
 
 // function to search for a substring, returns position ot -1 if not found
@@ -108,21 +105,30 @@ void insertString(char text[], char insert[], int start) {
     
 }
 
-void replaceString(char source[], char s1[], char s2[]) {       
+bool replaceString(char source[], char s1[], char s2[]) {       
     int foundat = findString(source, s1);
-    removeString(source, foundat, strlen(s2) + 1);
-    insertString(source, s2, foundat);
+    if (foundat == -1)
+        return false;
+    else {
+        removeString(source, foundat, strlen(s2) + 1);
+        insertString(source, s2, foundat);
+    }
+    return true;
 }
 
 int main(int argc, char** argv) {
-    char test[] = "georgi toshev";
+    char test[] = "georgi valeriev toshev";
+    bool stillFound;
     
     int findString(char srch_in[], char srch_for[]);
     void removeString(char string[], int start, int n);
     void insertString(char text[], char insert[], int start);
-    void replaceString(char source[], char s1[], char s2[]);
+    bool replaceString(char source[], char s1[], char s2[]);
     
-    replaceString(test, " ", ""); // doesn't work with blank space - fixed
+    do {
+        stillFound = replaceString(test, " ", "");
+    } while (stillFound == true);
+     
     printf("%s", test);
 
     return (EXIT_SUCCESS);
