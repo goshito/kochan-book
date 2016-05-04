@@ -1,53 +1,52 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   main.c
+ * Author: georgi
+ *
+ * Created on May 3, 2016, 7:04 PM
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 /*
- * Chapter 10, Exercise 10
+ * Chapter 10, Exercise 11
  * 
- * Write a function called dictionarySort that sorts a dictionary, as defined
- * in Programs 10.9 and 10.10, into alphabetical order.
+ * Extend the strToInt function from Program 10.11 so that if the first charac-
+ * ter of the string is a minus sign, the value that follows is taken as a nega-
+ * tive number.
  */
-// I have sorted definitions
 
-struct entry {
-    char word[15];
-    char definition[50];
-};
-
-void sort(struct entry dictionary[], int n) {  
-    int i, j; 
-    char temp[81]; // length not needed? rename it!!!
+int strToInt(const char string[]) { 
+    int i, intValue, result = 0;
     
-    for (i = 0; i < n - 1; i++)              // redo using a while loop?
-        for (j = i + 1; j < n; j++)
-            if (strcmp(dictionary[i].definition, dictionary[j].definition) > 0) {     //strcmp
-                strcpy(temp, dictionary[i].definition);
-                strcpy(dictionary[i].definition, dictionary[j].definition);
-                strcpy(dictionary[j].definition, temp);
-            }
+    if (string[0] == '-') {
+       for (i = 1; string[i] >= '0' && string[i] <= '9'; ++i) {
+           intValue = string[i] - '0';
+           result = result * 10 + intValue;  
+       }
+       return -result;
+    } else {
+        for (i = 0; string[i] >= '0' && string[i] <= '9'; ++i) {
+           intValue = string[i] - '0';
+           result = result * 10 + intValue; 
+        }
+       return result; 
+    }    
+    
 }
 
 int main(int argc, char** argv) {
-    void sort(struct entry dictionary[], int length);
-    struct entry dictionary[100] = {
-        {"aardvark",    "a burrowing African mammal"       },
-        {"abyss",       "a bottomless pit"                 },
-        {"acumen",      "mentally sharp; keen"             },
-        {"addle",       "to become confused"               },
-        {"aerie",       "a high nest"                      },
-        {"affix",       "to append; attach"                },
-        {"agar",        "a jelly made from seaweed"        },
-        {"ahoy",        "a nautical call of greeting"      },
-        {"aigrette",    "an ornamental cluster of feathers"},
-        {"ajar",        "partially opened"                 }        
-    };
+    int strToInt(const char string[]);
     
-    sort(dictionary, 10);
-    
-    for (int i = 0; i < 9; i++) {
-        printf("%s\n", dictionary[i].definition);
-    }    
-    
+    printf("%i\n", strToInt("-245"));
+    printf("%i\n", strToInt("100") + 25);
+    printf("%i\n", strToInt("13x5"));
+
     return (EXIT_SUCCESS);
 }
