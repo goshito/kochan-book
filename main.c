@@ -14,7 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+//#include <stdbool.h>
+//#include <math.h>
 
 /*
  * Chapter 10, Exercise 12
@@ -28,12 +29,12 @@
  * should return the value -867.6921
  */
 
-// flag the start of the decimal point !!!
+// flag the start of the decimal point !!!???
 
 double strToFloat(char string[]) { // type cast???
-    int i, decimalCount = 0;
+    int i, j, decpnt;
     double floatValue, result = 0;
-    bool decimalPoint = false;
+    //bool decimalPoint = false;
     
     // handle minus
     if (string[0] == '-') {
@@ -42,37 +43,73 @@ double strToFloat(char string[]) { // type cast???
                 i++;
                 continue;
             } else if (string[i] == '.') { //skip the decimal point
+                decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
                 continue;
             }    
            
            floatValue = string[i] - '0';
            result = result * 10 + floatValue;  
        }
-       return -result * 0.0001;
+       
+       for (j = 0; result >= 1; j++) {
+            result /= 10;
+            //printf("result %d = %f\n", j, result);
+        }
+        //printf("result after for loop = %f\n", result);
+        //printf("j after for loop = %d\n", j);
+        
+        for (int m = 0; m < decpnt; m++) {
+            result *= 10;
+            //printf("result %d = %f\n", m, result);
+        } 
+       
+       return -result;
     } else {                  // calculate positive floating point number      
         for (i = 0; string[i] >= '.' && string[i] <= '9'; ++i) {
             
             if (string[i] == '/') { //skip the backslash
                 i++;
                 continue;
-            } else if (string[i] == '.') { //skip the decimal period
-                decimalPoint = true; // decimal point start
+            } else if (string[i] == '.') { //skip the decimal point
+                decpnt = i;     // from where decimal point starts
+                //decimalPoint = true; // decimal point start
                 continue;
             }             
-            while (decimalCount < i + decimalCount)
-                decimalCount++;
+            //while (decimalCount < i + decimalCount)
+            //    decimalCount++;
             // count the number of digits after a floating point
             floatValue = string[i] - '0';
             result = result * 10 + floatValue; 
         }
-       return result * 0.0001; 
+        //printf("result before decpnt  = %f\n", result);
+        //printf("decpnt = %d\n", decpnt);
+        
+        for (j = 0; result >= 1; j++) {
+            result /= 10;
+            //printf("result %d = %f\n", j, result);
+        }
+        //printf("result after for loop = %f\n", result);
+        //printf("j after for loop = %d\n", j);
+        
+        for (int m = 0; m < decpnt; m++) {
+            result *= 10;
+            //printf("result %d = %f\n", m, result);
+        }        
+        
+        //insert decimal point in appropriate place
+       return result; 
     }    
     
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("867.6921"));
+    printf("%f", strToFloat("-8.676921")); //not working
 
     return (EXIT_SUCCESS);
 }
 
+/*
+ * Ideas:
+ * 
+ * 1. Decimal count isn't used 
+ */
