@@ -71,7 +71,7 @@ double strToFloat(char string[]) { // type cast???
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("-867.6921"));
+    printf("%f", strToFloat("867.6921"));
 
     return (EXIT_SUCCESS);
 }
