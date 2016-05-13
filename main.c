@@ -8,108 +8,52 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on May 4, 2016, 1:59 PM
+ * Created on May 13, 2016, 9:44 AM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <stdbool.h>
-//#include <math.h>
 
-/*
- * Chapter 10, Exercise 12
+/* Chapter 10, Exercise 13
  * 
- * Write a function called strToFloat that converts a character string into a
- * floating point value. Have the function accept an optional leading minus.
- * So, the call
- * 
- * strToFloar("-867.6921");
- * 
- * should return the value -867.6921
+ * If c is a lowercase character, the expression
+ * c -'a' + 'A'
+ * produces the uppercase equivalent of c, assuming an ASCII character set.
+ * Write a function called uppercase that converts all lowercase characters in 
+ * a string into their uppercase equivalents. 
  */
 
-// flag the start of the decimal point !!!???
+/*
+ * Algorithm:
+ * 
+ * 1. C = c - 'a' + 'A (67 = 99 - 97 + 65)
+ * 2. create a buff string to hold the uppercase letters
+ * 3. copy buff string back to original string 
+ * 4. convert???
+ */
 
-double strToFloat(char string[]) { // type cast???
-    int i, j, decpnt;
-    double floatValue, result = 0;
-    //bool decimalPoint = false;
+void uppercase(char string[]) {
+    char buffStr[strlen(string) + 1];
     
-    // handle minus
-    if (string[0] == '-') {
-       for (i = 1; string[i] >= '.' && string[i] <= '9'; ++i) {
-           if (string[i] == '/') { //skip the backslash
-                i++;
-                continue;
-            } else if (string[i] == '.') { //skip the decimal point
-                decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
-                continue;
-            }    
-           
-           floatValue = string[i] - '0';
-           result = result * 10 + floatValue;  
-       }
-       
-       for (j = 0; result >= 1; j++) {
-            result /= 10;
-            //printf("result %d = %f\n", j, result);
-        }
-        //printf("result after for loop = %f\n", result);
-        //printf("j after for loop = %d\n", j);
-        
-        for (int m = 0; m < decpnt; m++) {
-            result *= 10;
-            //printf("result %d = %f\n", m, result);
-        } 
-       
-       return -result;
-    } else {                  // calculate positive floating point number      
-        for (i = 0; string[i] >= '.' && string[i] <= '9'; ++i) {
-            
-            if (string[i] == '/') { //skip the backslash
-                i++;
-                continue;
-            } else if (string[i] == '.') { //skip the decimal point
-                decpnt = i;     // from where decimal point starts
-                //decimalPoint = true; // decimal point start
-                continue;
-            }             
-            //while (decimalCount < i + decimalCount)
-            //    decimalCount++;
-            // count the number of digits after a floating point
-            floatValue = string[i] - '0';
-            result = result * 10 + floatValue; 
-        }
-        //printf("result before decpnt  = %f\n", result);
-        //printf("decpnt = %d\n", decpnt);
-        
-        for (j = 0; result >= 1; j++) {
-            result /= 10;
-            //printf("result %d = %f\n", j, result);
-        }
-        //printf("result after for loop = %f\n", result);
-        //printf("j after for loop = %d\n", j);
-        
-        for (int m = 0; m < decpnt; m++) {
-            result *= 10;
-            //printf("result %d = %f\n", m, result);
-        }        
-        
-        //insert decimal point in appropriate place
-       return result; 
-    }    
+    for (int i = 0; i < strlen(string); i++) {
+        buffStr[i] = string[i] - 97 + 65; //copying and converting to u
+    }
+    //printf("%s\n", buffStr);
+    //printf("sizeof buffStr = %d\n", sizeof(buffStr));
     
+    strcpy(string, buffStr);
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("-86.76921")); // working
+    //printf("%c\n", 'd' - 'a' + 'A');
+    void uppercase(char string[]);
+    char name[] = "georgi"; //printf("%li", sizeof(name));   
+    
+    //printf("%s\n", uppercase(name)); // invalid use of void expression
+    uppercase(name);
+    printf("%s\n", name); //printf("sizeof name = %d\n", sizeof(name));
 
     return (EXIT_SUCCESS);
 }
 
-/*
- * Ideas:
- * 
- * 1. Decimal count isn't used 
- */
