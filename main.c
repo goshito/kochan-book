@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,52 +9,76 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on May 13, 2016, 9:44 AM
+ * Created on May 4, 2016, 1:59 PM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-/* Chapter 10, Exercise 13
- * 
- * If c is a lowercase character, the expression
- * c -'a' + 'A'
- * produces the uppercase equivalent of c, assuming an ASCII character set.
- * Write a function called uppercase that converts all lowercase characters in 
- * a string into their uppercase equivalents. 
- */
+//#include <stdbool.h>
+//#include <math.h>
 
 /*
- * Algorithm:
+ * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857
  * 
- * 1. C = c - 'a' + 'A (67 = 99 - 97 + 65)
- * 2. create a buff string to hold the uppercase letters
- * 3. copy buff string back to original string 
- * 4. convert???
+ * Write a function called strToFloat that converts a character string into a
+ * floating point value. Have the function accept an optional leading minus.
+ * So, the call
+ * 
+ * strToFloar("-867.6921");
+ * 
+ * should return the value -867.6921
  */
 
-void uppercase(char string[]) {
-    char buffStr[strlen(string) + 1];
+// 
+
+double strToFloat(char string[]) { // type cast???
+    int i = 0, j, decpnt;
+    double floatValue, result = 0;
     
-    for (int i = 0; i < strlen(string); i++) {
-        buffStr[i] = string[i] - 97 + 65; //copying and converting to u
-    }
-    //printf("%s\n", buffStr);
-    //printf("sizeof buffStr = %d\n", sizeof(buffStr));
+    // handle minus
+    if (string[0] == '-')
+        i++;
+    else {
+       for (i; string[i] >= '.' && string[i] <= '9'; ++i) {
+           if (string[i] == '/') { //skip the backslash
+                i++;
+                continue;
+            } else if (string[i] == '.') { //skip the decimal point
+                if (string[0] == '-')
+                    decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
+                else
+                    decpnt = i;
+                continue;
+            }    
+           
+           floatValue = string[i] - '0';
+           result = result * 10 + floatValue;  
+       }
+       
+       for (j = 0; result >= 1; j++) {
+            result /= 10;
+        }
+        // place the decimal point
+        for (int m = 0; m < decpnt; m++) {
+            result *= 10;
+        } 
+       if (string[0] == '-')
+           return -result;
+       else
+           return result;
+    }   
     
-    strcpy(string, buffStr);
 }
 
 int main(int argc, char** argv) {
-    //printf("%c\n", 'd' - 'a' + 'A');
-    void uppercase(char string[]);
-    char name[] = "georgi"; //printf("%li", sizeof(name));   
-    
-    //printf("%s\n", uppercase(name)); // invalid use of void expression
-    uppercase(name);
-    printf("%s\n", name); //printf("sizeof name = %d\n", sizeof(name));
+    printf("%f", strToFloat("-121.93")); // working
 
     return (EXIT_SUCCESS);
 }
 
+/*
+ * Ideas:
+ * 
+ * 1. Decimal count isn't used 
+ */
