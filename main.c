@@ -15,11 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <stdbool.h>
-//#include <math.h>
 
 /*
- * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857
+ * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857, 15052016 1504
  * 
  * Write a function called strToFloat that converts a character string into a
  * floating point value. Have the function accept an optional leading minus.
@@ -33,52 +31,45 @@
 // 
 
 double strToFloat(char string[]) { // type cast???
-    int i = 0, j, decpnt;
+    int i = 0, decpnt;
     double floatValue, result = 0;
-    
-    // handle minus
-    if (string[0] == '-')
+
+    // handle minus and plus
+    if (string[0] == '-' || string[0] == '+')
         i++;
-    else {
-       for (i; string[i] >= '.' && string[i] <= '9'; ++i) {
-           if (string[i] == '/') { //skip the backslash
-                i++;
-                continue;
-            } else if (string[i] == '.') { //skip the decimal point
-                if (string[0] == '-')
-                    decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
-                else
-                    decpnt = i;
-                continue;
-            }    
-           
-           floatValue = string[i] - '0';
-           result = result * 10 + floatValue;  
-       }
-       
-       for (j = 0; result >= 1; j++) {
-            result /= 10;
+    // convert string to int
+    for (; (string[i] >= '0' && string[i] <= '9') || string[i] == '.'; i++) {
+
+        if (string[i] == '.') { //skip the decimal point ottuka do kraya kolko cifri ima
+            if (string[0] == '-' || string[0] == '+') {
+                decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
+            } //divide the number n times
+            else {                
+                decpnt = i;
+            }
+            continue;
         }
-        // place the decimal point
-        for (int m = 0; m < decpnt; m++) {
-            result *= 10;
-        } 
-       if (string[0] == '-')
-           return -result;
-       else
-           return result;
-    }   
+
+        floatValue = string[i] - '0';
+        result = result * 10 + floatValue;
+    }
+    if (string[0] == '+' || string[0] == '-')
+        i--;
+    // place the decimal point
+    for (int j = 0; j < i - decpnt - 1; j++) { //i - decpnt - 1 = 2 (for 1234.56)
+        result /= 10;        
+    }
     
+    if (string[0] == '-')
+        return -result;
+    else
+        return result;
+
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("-121.93")); // working
+    printf("%f", strToFloat("1234.56")); // working
 
     return (EXIT_SUCCESS);
 }
 
-/*
- * Ideas:
- * 
- * 1. Decimal count isn't used 
- */
