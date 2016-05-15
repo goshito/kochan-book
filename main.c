@@ -18,7 +18,9 @@
 #include <math.h>
 
 /*
- * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857, 15052016 1504
+ * !!! the smaller for loop was removed
+ * 
+ * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857, 15052016 1504,1712
  * 
  * Write a function called strToFloat that converts a character string into a
  * floating point value. Have the function accept an optional leading minus.
@@ -58,12 +60,10 @@ double strToFloat(char string[]) { // type cast???
     
     if (string[0] == '+' || string[0] == '-')
         i--;
-    //place the decimal point
-    //for (int j = 0; j < i - decpnt - 1; j++) { 
-    //    result /= 10;        
-    //}
-    result = result * pow(10, (i - decpnt - 1));
     
+	int x = i - decpnt - 1;
+	result = result * 1/(pow(10, x));    
+
     if (string[0] == '-')
         return -result;
     else
@@ -72,7 +72,7 @@ double strToFloat(char string[]) { // type cast???
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("1234.56")); // working
+    printf("%f", strToFloat("123456.78")); // working
 
     return (EXIT_SUCCESS);
 }
