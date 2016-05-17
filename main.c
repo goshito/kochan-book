@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 /*
  * !!! the smaller for loop was removed
@@ -31,22 +32,22 @@
  * should return the value -867.6921
  */
 
-// 
 
-double strToFloat(char string[]) { // type cast???
+
+double strToFloat(char string[]) { 
     int i = 0, decpnt;
     double floatValue, result = 0;
 
-    // handle minus and plus
+    /* handle minus and plus */
     if (string[0] == '-' || string[0] == '+')
         i++;
-    // convert string to int
+    /* convert string to int*/
     for (; (string[i] >= '0' && string[i] <= '9') || string[i] == '.'; i++) {
 
-        if (string[i] == '.') { //skip the decimal and start dividing by 10
+        if (string[i] == '.') { /* skip the decimal and start dividing by 10 */
             if (string[0] == '-' || string[0] == '+') {
-                decpnt = i - 1; // mark start of decimal point(-1 because for i = 1)
-            } //divide the number n times
+                decpnt = i - 1; /* mark start of decimal point(-1 because for i = 1)*/
+            } /*divide the number n times*/
             else {                
                 decpnt = i;
             }
@@ -72,7 +73,9 @@ double strToFloat(char string[]) { // type cast???
 }
 
 int main(int argc, char** argv) {
-    printf("%f", strToFloat("123456.78")); // working
+    
+    for (int i = 0; i < 1000000; i++)
+        strToFloat("123456.78");   
 
     return (EXIT_SUCCESS);
 }
