@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,74 +8,60 @@
  * File:   main.c
  * Author: georgi
  *
- * Created on May 4, 2016, 1:59 PM
+ * Created on May 13, 2016, 11:30 AM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <time.h>
 
-/*
- * !!! the smaller for loop was removed
+/* Chapter 10, Exercise 14
  * 
- * Chapter 10, Exercise 12 Attempting to DRY 14052016 1857, 15052016 1504,1712
- * 
- * Write a function called strToFloat that converts a character string into a
- * floating point value. Have the function accept an optional leading minus.
- * So, the call
- * 
- * strToFloar("-867.6921");
- * 
- * should return the value -867.6921
+ * Write a function called intToStr that converts an integer value into a 
+ * character string. Be certain the function handles negative integers properly.
  */
 
-
-
-double strToFloat(char string[]) { 
-    int i = 0, decpnt;
-    double floatValue, result = 0;
-
-    /* handle minus and plus */
-    if (string[0] == '-' || string[0] == '+')
-        i++;
-    /* convert string to int*/
-    for (; (string[i] >= '0' && string[i] <= '9') || string[i] == '.'; i++) {
-
-        if (string[i] == '.') { /* skip the decimal and start dividing by 10 */
-            if (string[0] == '-' || string[0] == '+') {
-                decpnt = i - 1; /* mark start of decimal point(-1 because for i = 1)*/
-            } /*divide the number n times*/
-            else {                
-                decpnt = i;
-            }
-            continue;
-        }
-
-        floatValue = string[i] - '0';
-        result = result * 10 + floatValue;
-        
+void intToStr(int value, char str[]) { 
+    int value_tmp, digit_count, digit, i, origin_value;
+    //backup original value for later use
+    origin_value = value;
+    // treat value as positive for the convert, will add minus to str[0] later
+    if (value < 0) {
+        value = -value;
     }
     
-    if (string[0] == '+' || string[0] == '-')
-        i--;
+    // make a copy of value because I need to use original value later
+    value_tmp = value;
     
-	int x = i - decpnt - 1;
-	result = result * 1/(pow(10, x));    
-
-    if (string[0] == '-')
-        return -result;
+    // count the number of digits
+    for (digit_count = 0; value_tmp >= 1; digit_count++) {
+        value_tmp /= 10;
+    }
+    
+    //extract the digits and handle minus situation
+    if (origin_value < 0) {
+        i = digit_count;
+        str[0] = '-';
+    }
     else
-        return result;
-
+        i = digit_count - 1;
+    do {
+        digit = value % 10;
+        str[i] = digit + '0';
+        value = value / 10;
+        i--;
+    } while (value >= 1);
 }
-
 int main(int argc, char** argv) {
+    void intToStr(int value, char str[]);
+    char numStr[100];
     
-    for (int i = 0; i < 1000000; i++)
-        strToFloat("123456.78");   
+    intToStr(-1234, numStr);
+    
+    printf("%s\n", numStr);
 
     return (EXIT_SUCCESS);
 }
+
+// backup from before adding else condition
 
